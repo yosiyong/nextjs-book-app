@@ -2,11 +2,18 @@ import { NextResponse } from "next/server";
 import Stripe from "stripe";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
+
+// Checkout処理リクエスト
 export async function POST(request:Request, res: Response) {
-    const {title, price} = await request.json();
+    const {title, price, bookId, userId} = await request.json();
     try {
         // Create Checkout Sessions from body params.
         const session = await stripe.checkout.sessions.create({
+          payment_method_types: ["card"],
+          metadata: {
+            bookId: bookId,
+          },
+          client_reference_id: userId,
           line_items: [
             {
               // Provide the exact Price ID (for example, pr_1234) of the product you want to sell
@@ -21,7 +28,7 @@ export async function POST(request:Request, res: Response) {
             },
           ],
           mode: 'payment',
-          success_url: `${process.env.STRIPE_SUCCESS_URL}?session_id={CHECK_SESSION_ID}`,
+          success_url: `${process.env.STRIPE_SUCCESS_URL}?session_id={CHECKOUT_SESSION_ID}`,  // strip側で自動的にCHECKOUT_SESSION_IDに値をセットしてくれる。
           cancel_url: `${process.env.STRIPE_CANCEL_URL}`,
         });
 
