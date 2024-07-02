@@ -19,7 +19,7 @@ const Book = ({ book }: BookProps) => {
 
   const startCheckout = async () => {
     try {
-      //stripのチェックアウトページに商品データをPOST
+      // 商品データをPOSTして、stripのチェックアウト処理をサーバー側にリクエストする
       const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/checkout`, {
         method: "POST",
         headers: {"Content-Type": "application/json"},
@@ -48,7 +48,9 @@ const Book = ({ book }: BookProps) => {
     }
   }
 
+  // 本クリック
   const handlePurchaseClick = () => {
+    console.log('book click');
     setShowModal(true);
   }
 
