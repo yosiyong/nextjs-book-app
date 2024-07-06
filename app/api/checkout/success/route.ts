@@ -8,13 +8,13 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
 export async function POST(req: Request, res: Response) {
     
     const { sessionId } = await req.json();
-
+    //console.log('server sessionId:',sessionId);
     try {
         // session情報取得
         const session = await stripe.checkout.sessions.retrieve(sessionId);
 
-        console.log('session.client_reference_id:',session.client_reference_id);
-        console.log('session.metadata?.bookId!:',session.metadata?.bookId!);
+        //console.log('session.client_reference_id:',session.client_reference_id);
+        //console.log('session.metadata?.bookId!:',session.metadata?.bookId!);
         
         // 既に同じデータが保存済みかチェック
         const existingPurchase = await prisma.purchase.findFirst({

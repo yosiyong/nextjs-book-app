@@ -6,10 +6,20 @@ export const client = createClient({
   apiKey: process.env.NEXT_PUBLIC_API_KEY!,
 });
 
+// microcmsからBooks一覧データ取得
 export const getAllBooks = async() => {
     const allBooks = await client.getList<BookType>({
         endpoint: "edoc",
     });
 
     return allBooks;
+}
+
+export const getDetailBook = async(contentId: string) => {
+  const detailBook = await client.getListDetail<BookType>({
+    endpoint: "edoc",
+    contentId,
+  });
+
+  return detailBook;
 }

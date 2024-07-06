@@ -9,7 +9,7 @@ const PurchaseSuccess = () => {
   // Urlパラメータ取得
   const searchParams = useSearchParams();
   const sessionId = searchParams.get("session_id");
-
+  //console.log('client sessionId:',sessionId);
   // 購買履歴データ保存用
   const [bookUrl, setBookUrl] = useState(null);
 
@@ -27,8 +27,9 @@ const PurchaseSuccess = () => {
               body: JSON.stringify({ sessionId }),
             });
 
-            //console.log(await res.json());
-            const data = await res.json();
+            //console.log("success post response:");
+             const data = await res.json();
+            //console.log("bookUrl:" + data.purchase.bookId);
             setBookUrl(data.purchase.bookId);
         } catch (err) {
           console.error(err);
